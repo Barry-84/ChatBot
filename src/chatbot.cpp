@@ -45,6 +45,87 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+// overload copy constructor
+ChatBot::ChatBot(const ChatBot &source) :
+    _image(new wxBitmap(*source._image)),
+    _currentNode(source._currentNode),
+    _rootNode(source._rootNode),
+    _chatLogic(source._chatLogic)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    _chatLogic->SetChatbotHandle(this);
+
+}
+
+// overload copy assignment operator
+ChatBot& ChatBot::operator=(const ChatBot &source)
+{
+    // The concept of copying is to create two instances have the same access to the same memory address
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+
+    // protect against self-assignment
+    if (this == &source)
+        return *this;
+
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    if (_image != NULL)
+        delete _image; // _image was created on the heap, that's why it must be deleted ** NOT SURE ABOUT THIS!! **
+
+    _image = new wxBitmap(*source._image); // deep copy
+
+    return *this;
+}
+
+// move constructor 
+ChatBot::ChatBot(ChatBot &&source) :
+    _image(source._image),
+    _currentNode(source._currentNode),
+    _rootNode(source._rootNode),
+    _chatLogic(source._chatLogic)
+
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+    source._image = NULL; // Attention: wxWidgets used NULL and not nullptr. Assigning NULL so that the actual data won't be deleted when destructor is called
+}
+
+// move assignment operator
+ChatBot& ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+
+    if (this == &source)
+        return *this;
+
+    if (_image != NULL)
+        delete _image; // frees the memory at this location 
+
+    _image = source._image; // shallow copy
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+
+    _chatLogic->SetChatbotHandle(this);
+
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+    source._image = NULL; // Attention: wxWidgets used NULL and not nullptr. Assigning NULL so that the actual data won't be deleted when destructor is called
+
+    return *this;
+}
+
 ////
 //// EOF STUDENT CODE
 

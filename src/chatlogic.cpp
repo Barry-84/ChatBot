@@ -35,8 +35,13 @@ ChatLogic::~ChatLogic()
     // delete chatbot instance
     delete _chatBot;
 
-//    // delete all nodes
- //   for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
+    /* Task 3 involved declaring vector _nodes as a vector of unique pointers.
+       _nodes was originally a vector of raw pointers. The code below has been
+       removed since the resources managed by smart pointers, unlike raw pointers,
+       are automatically deleted once they go out of scope.
+    */
+    // delete all nodes
+//   for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
 //    {
 //        delete *it;
 //    }
@@ -127,7 +132,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         ////
 
                         // check if node with this ID exists already
-                        // auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
+                        /* Task 3 involved declaring vector _nodes as a vector of unique pointers.
+                           _nodes was originally a vector of raw pointers. The code below has been
+                           modified since _nodes no longer contains raw pointers.
+                        */
                       //auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](GraphNode *node) { return node->GetID() == id; });
                       auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](std::unique_ptr<GraphNode>& node) { return node->GetID() == id; });
 
@@ -159,6 +167,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         if (parentToken != tokens.end() && childToken != tokens.end())
                         {
                             // get iterator on incoming and outgoing node via ID search
+                            /* Task 3 involved declaring vector _nodes as a vector of unique pointers.
+                               _nodes was originally a vector of raw pointers. The code below has been
+                               modified since _nodes no longer contains raw pointers.
+                            */
                             //auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](GraphNode *node) { return node->GetID() == std::stoi(parentToken->second); });
                           	auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](std::unique_ptr<GraphNode>& node) { return node->GetID() == std::stoi(parentToken->second); });
                             //auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](GraphNode *node) { return node->GetID() == std::stoi(childToken->second); });
@@ -166,12 +178,16 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                           
                             // create new edge
                             GraphEdge *edge = new GraphEdge(id);
+                            /* Task 3 involved declaring vector _nodes as a vector of unique pointers.
+                               _nodes was originally a vector of raw pointers. The code below has been
+                              modified since _nodes no longer contains raw pointers.
+                              childnode is an iterator of type std::vector<std::unique_ptr<GraphNode>>::iterator. In other words, I think it's
+                              a raw pointer to a unique_pointer and that's why it's first dereferenced here.
+                            */
                             //edge->SetChildNode(*childNode);
-                           // childnode is an iterator of type std::vector<std::unique_ptr<GraphNode>>::iterator. In other words, I think it's
-                           // a raw pointer to a unique_pointer and that's why it's first dereferenced here.
-                            edge->SetChildNode((*childNode).get()); // function doesn't modify the pointer, so just pass it the raw pointer
+                            edge->SetChildNode((*childNode).get()); // Task 3: function doesn't modify the pointer, so just pass it the raw pointer
                             //edge->SetParentNode(*parentNode);
-                            edge->SetParentNode((*parentNode).get()); // function doesn't modify the pointer, so just pass it the raw pointer
+                            edge->SetParentNode((*parentNode).get()); // Task 3: function doesn't modify the pointer, so just pass it the raw pointer
                             _edges.push_back(edge);
 
                             // find all keywords for current node
@@ -215,6 +231,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
             if (rootNode == nullptr)
             {
+                /* Task 3 involved declaring vector _nodes as a vector of unique pointers.
+                   _nodes was originally a vector of raw pointers. The code below has been
+                   modified since the variable 'it' is now a pointer to smart (unique) pointer. 
+                */
                 //rootNode = *it; // assign current node to root
             	rootNode = (*it).get(); // assign current node to root
             }

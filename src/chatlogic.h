@@ -17,6 +17,7 @@ private:
     ////
 
     // data handles (owned)
+    /* Task 3*/
     // std::vector<GraphNode *> _nodes;
     std::vector<std::unique_ptr<GraphNode>> _nodes;
     std::vector<GraphEdge *> _edges;

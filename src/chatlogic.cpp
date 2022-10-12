@@ -175,9 +175,13 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                           	auto parentNode = std::find_if(_nodes.begin(), _nodes.end(), [&parentToken](std::unique_ptr<GraphNode>& node) { return node->GetID() == std::stoi(parentToken->second); });
                             //auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](GraphNode *node) { return node->GetID() == std::stoi(childToken->second); });
                             auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](std::unique_ptr<GraphNode>& node) { return node->GetID() == std::stoi(childToken->second); });
-                          
+                            /* Task 4: change the ownership of all instances of GraphEdge in a way such that each instance of GraphNode exclusively
+                               owns the outgoing GraphEdges and holds non-owning references to incoming GraphEdges. But how do we know whether this
+                               will be incoming or outgoing? I've just chosen a uniue pointer here, which would be for outgoing. */
                             // create new edge
-                            GraphEdge *edge = new GraphEdge(id);
+                            // GraphEdge *edge = new GraphEdge(id);
+                            std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
+                          
                             /* Task 3 involved declaring vector _nodes as a vector of unique pointers.
                                _nodes was originally a vector of raw pointers. The code below has been
                               modified since _nodes no longer contains raw pointers.
@@ -188,14 +192,19 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             edge->SetChildNode((*childNode).get()); // Task 3: function doesn't modify the pointer, so just pass it the raw pointer
                             //edge->SetParentNode(*parentNode);
                             edge->SetParentNode((*parentNode).get()); // Task 3: function doesn't modify the pointer, so just pass it the raw pointer
-                            _edges.push_back(edge);
+                            /* Task 4: edge is a unique pointer. We can't call push_back with it as this would amount to copying it, which is not allowed. */  
+							//_edges.push_back(edge);
+                            _edges.push_back(edge.get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
+                            /* Task 4 */
                             // store reference in child node and parent node
-                            (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+                            //(*childNode)->AddEdgeToParentNode(edge); // ToDO: Task 4
+                            //(*parentNode)->AddEdgeToChildNode(edge); // ToDO: Task 4
+                            (*childNode)->AddEdgeToParentNode((std::move(edge)).get());
+                            (*parentNode)->AddEdgeToChildNode(edge.get());
                         }
 
                         ////

@@ -5,6 +5,9 @@
 #include <string>
 #include "chatbot.h"
 
+/* Task 4 */
+#include <memory>
+
 
 // forward declarations
 class GraphEdge;
@@ -16,10 +19,17 @@ private:
     ////
 
     // data handles (owned)
-    std::vector<GraphEdge *> _childEdges;  // edges to subsequent nodes
+    /* Task 4: change the ownership of all instances of GraphEdge in a way
+       such that each instance of GraphNode exclusively owns the outgoing
+       GraphEdges ('outgoing' refers to the child edges) */
+    //std::vector<GraphEdge *> _childEdges;  // edges to subsequent nodes
+    std::vector<std::unique_ptr<GraphEdge>> _childEdges;  // edges to subsequent nodes
 
     // data handles (not owned)
-    std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
+    /* Task 4: ...and holds non-owning references to incoming GraphEdges
+       ('incoming' refers to the parent edges)*/
+    //std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
+    std::vector<std::weak_ptr<GraphEdge>> _parentEdges; // edges to preceding nodes 
     ChatBot *_chatBot;
 
     ////

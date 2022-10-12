@@ -11,6 +11,7 @@ GraphNode::~GraphNode()
     //// STUDENT CODE
     ////
 
+  	/* Task 0 */
     // delete _chatBot; 
 
     ////
@@ -52,8 +53,9 @@ GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
 {
     //// STUDENT CODE
     ////
-
-    return _childEdges[index];
+	/* Task 4 */
+    //return _childEdges[index];
+    return _childEdges[index].get();
 
     ////
     //// EOF STUDENT CODE

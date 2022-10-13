@@ -1,4 +1,4 @@
-#ifndef GRAPHNODE_H_
+    #ifndef GRAPHNODE_H_
 #define GRAPHNODE_H_
 
 #include <vector>
@@ -28,8 +28,8 @@ private:
     // data handles (not owned)
     /* Task 4: ...and holds non-owning references to incoming GraphEdges
        ('incoming' refers to the parent edges)*/
-    //std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
-    std::vector<std::weak_ptr<GraphEdge>> _parentEdges; // edges to preceding nodes 
+    std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
+    //std::vector<std::weak_ptr<GraphEdge>> _parentEdges; // edges to preceding nodes 
     ChatBot *_chatBot;
 
     ////
@@ -53,8 +53,12 @@ public:
 
     // proprietary functions
     void AddToken(std::string token); // add answers to list
+
+    /* Task 4: This isn't marked for modification by the student, but it seems to me it must be modified. */
+    //void AddEdgeToParentNode(std::weak_ptr<GraphEdge> edge);
     void AddEdgeToParentNode(GraphEdge *edge);
-    void AddEdgeToChildNode(GraphEdge *edge);
+    void AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge);
+    //void AddEdgeToChildNode(GraphEdge *edge);
 
     //// STUDENT CODE
     ////

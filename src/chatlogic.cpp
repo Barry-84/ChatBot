@@ -46,11 +46,12 @@ ChatLogic::~ChatLogic()
 //        delete *it;
 //    }
 
-    // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        delete *it;
-    }
+  	/* _edges no used at all */
+//    // delete all edges
+//   for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
+//    {
+//        delete *it;
+//    }
 
     ////
     //// EOF STUDENT CODE
@@ -193,8 +194,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             //edge->SetParentNode(*parentNode);
                             edge->SetParentNode((*parentNode).get()); // Task 3: function doesn't modify the pointer, so just pass it the raw pointer
                             /* Task 4: edge is a unique pointer. We can't call push_back with it as this would amount to copying it, which is not allowed. */  
+                          
+                            /* _edges no used at all */
 							//_edges.push_back(edge);
-                            _edges.push_back(edge.get());
+                            //_edges.push_back(edge.get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
@@ -203,8 +206,8 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             // store reference in child node and parent node
                             //(*childNode)->AddEdgeToParentNode(edge); // ToDO: Task 4
                             //(*parentNode)->AddEdgeToChildNode(edge); // ToDO: Task 4
-                            (*childNode)->AddEdgeToParentNode((std::move(edge)).get());
-                            (*parentNode)->AddEdgeToChildNode(edge.get());
+                            (*childNode)->AddEdgeToParentNode(edge.get());                         
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge));
                         }
 
                         ////

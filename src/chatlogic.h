@@ -20,7 +20,9 @@ private:
     /* Task 3*/
     // std::vector<GraphNode *> _nodes;
     std::vector<std::unique_ptr<GraphNode>> _nodes;
-    std::vector<GraphEdge *> _edges;
+    
+	/* _edges no used at all */
+    //std::vector<GraphEdge *> _edges;
 
     ////
     //// EOF STUDENT CODE

@@ -84,6 +84,12 @@ string
 chatgui.h
 /home/workspace/CppND-Memory-Management-Chatbot/src/chatgui.h
 
+/home/workspace/CppND-Memory-Management-Chatbot/src/graphedge.cpp
+graphnode.h
+/home/workspace/CppND-Memory-Management-Chatbot/src/graphnode.h
+graphedge.h
+/home/workspace/CppND-Memory-Management-Chatbot/src/graphedge.h
+
 /home/workspace/CppND-Memory-Management-Chatbot/src/graphedge.h
 vector
 -
@@ -91,6 +97,12 @@ string
 -
 memory
 -
+
+/home/workspace/CppND-Memory-Management-Chatbot/src/graphnode.cpp
+graphedge.h
+/home/workspace/CppND-Memory-Management-Chatbot/src/graphedge.h
+graphnode.h
+/home/workspace/CppND-Memory-Management-Chatbot/src/graphnode.h
 
 /home/workspace/CppND-Memory-Management-Chatbot/src/graphnode.h
 vector

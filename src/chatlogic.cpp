@@ -33,6 +33,9 @@ ChatLogic::~ChatLogic()
     //// STUDENT CODE
     ////
 
+  	/*  Task 5: _chatBot will point at a resource owned by a unique pointer, which will 
+        automatically be freed once the unique pointer goes out of scope. Therefore manually
+        freeing the resource here by calling delete would cause a segmentation fault */
     // delete chatbot instance
     //delete _chatBot;
 
